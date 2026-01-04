@@ -14,10 +14,7 @@ function SearchBar() {
   };
 
   return (
-    <form
-      onSubmit={submitHandler}
-      className="px-12 py-8"
-    >
+    <form onSubmit={submitHandler} className="px-12 py-8">
       <div
         className="
           flex items-center gap-3
@@ -31,10 +28,7 @@ function SearchBar() {
         "
       >
         {/* Search Icon */}
-        <FontAwesomeIcon
-          icon={faMagnifyingGlass}
-          className="text-gray-400"
-        />
+        <FontAwesomeIcon icon={faMagnifyingGlass} className="text-gray-400" />
 
         {/* Input */}
         <input

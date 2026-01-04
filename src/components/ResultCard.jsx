@@ -8,8 +8,8 @@ function ResultCard({ item }) {
   const dispatch = useDispatch();
 
   const handleAddToCollection = (e) => {
-    e.preventDefault();      // 🔴 stop <a> redirect
-    e.stopPropagation();     // 🔴 stop bubbling
+    e.preventDefault();
+    e.stopPropagation();
     dispatch(addCollection(item));
     dispatch(addedToast());
   };

@@ -17,85 +17,83 @@ function ResultGrid() {
   );
 
   useEffect(() => {
-    if(!query) return
+    if (!query) return;
     const getData = async () => {
       try {
-        dispath(setLoading())
-              let data=[]
-      if (activeTab == "photo") {
-        let response = await fetchPhoto(query);
-        data = response.results.map((item)=>({
-          id:item.id,
-          type:'photo',
-          title:item.alt_description,
-          thumbnail:item.urls.small,
-          src:item.urls.full,
-          url:item.links.html
+        dispath(setLoading());
+        let data = [];
+        if (activeTab == "photo") {
+          let response = await fetchPhoto(query);
+          data = response.results.map((item) => ({
+            id: item.id,
+            type: "photo",
+            title: item.alt_description,
+            thumbnail: item.urls.small,
+            src: item.urls.full,
+            url: item.links.html,
+          }));
+        }
 
-        }))
-      }
+        if (activeTab == "video") {
+          let response = await fetchVideo(query);
+          data = response.videos.map((item) => ({
+            id: item.id,
+            type: "video",
+            title: item.user.name || "video",
+            thumbnail: item.image,
+            src: item.video_files[0].link,
+            url: item.url,
+          }));
+        }
 
-      if (activeTab == "video") {
-        let response = await fetchVideo(query);
-        data = response.videos.map((item)=>({
-          id:item.id,
-          type:'video',
-          title:item.user.name || 'video',
-          thumbnail:item.image,
-          src: item.video_files[0].link,
-          url:item.url
-        }))
-      }
+        if (activeTab == "gif") {
+          let response = await fetchGIF(query);
+          data = response.results.map((item) => ({
+            id: item.id,
+            type: "gif",
+            title: item.title || "GIF",
+            thumbnail: item.media_formats.tinygif.url,
+            src: item.media_formats.gif.url,
+            url: item.url,
+          }));
+        }
 
-      if (activeTab == "gif") {
-        let response = await fetchGIF(query);
-          data = response.results.map((item)=>({
-          id:item.id,
-          type:'gif',
-          title:item.title || 'GIF',
-          thumbnail:item.media_formats.tinygif.url,
-          src: item.media_formats.gif.url,
-          url:item.url
-          }))
-      }
-      
-      dispath(setResults(data))
+        dispath(setResults(data));
       } catch (err) {
-        dispath(setError(err.message))
+        dispath(setError(err.message));
       }
     };
 
     getData();
-  }, [query, activeTab,dispath]);
+  }, [query, activeTab, dispath]);
 
-if (loading)
-  return (
-    <p className="text-center text-lg animate-pulse py-20">
-      Loading results...
-    </p>
-  );
+  if (loading)
+    return (
+      <p className="text-center text-lg animate-pulse py-20">
+        Loading results...
+      </p>
+    );
 
-if (error)
-  return (
-    <p className="text-center text-red-400 py-20">
-      Something went wrong 😢
-    </p>
-  );
+  if (error)
+    return (
+      <p className="text-center text-red-400 py-20">Something went wrong 😢</p>
+    );
 
   return (
-    <div className="
+    <div
+      className="
   grid gap-8 px-12 py-10
   grid-cols-1
   sm:grid-cols-2
   md:grid-cols-3
   lg:grid-cols-4
   xl:grid-cols-5
-">
-  {results.map((item) => (
-    <ResultCard key={item.id} item={item} />
-  ))}
-</div>
-
+"
+    >
+      {results.map((item) => (
+        <ResultCard key={item.id} item={item} />
+      ))}
+    </div>
   );
 }
 
